@@ -1,0 +1,10 @@
+{
+    auto_https disable_redirects
+}
+
+localhost {
+    root * /var/www/public
+    php_fastcgi app:9000
+    encode gzip
+    file_server
+}

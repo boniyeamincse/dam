@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Head } from '@inertiajs/react';
 import Sidebar from '@/Components/Sidebar';
+import ThemeToggle from '@/Components/ThemeToggle';
 import { Menu } from 'lucide-react';
 
-export default function AppLayout({ title, children }) {
+const AppLayout = ({ children, title }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -11,39 +12,40 @@ export default function AppLayout({ title, children }) {
     return (
         <>
             <Head title={title} />
-            <div className="min-h-screen bg-gray-50">
-                {/* Mobile menu button */}
-                <div className="lg:hidden fixed top-4 left-4 z-50">
+            <div className="min-h-screen bg-background text-foreground">
+                {/* Mobile hamburger button */}
+                <div className="lg:hidden fixed top-4 left-4 z-40">
                     <button
                         onClick={toggleSidebar}
-                        className="p-2 text-gray-500 bg-white rounded-lg shadow-sm border border-gray-200 hover:bg-gray-50"
+                        className="p-2 bg-card rounded-lg shadow-sm border border-border hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-ring"
                     >
-                        <Menu className="h-5 w-5" />
+                        <Menu className="w-6 h-6" />
                     </button>
                 </div>
 
-                <div className="lg:grid lg:grid-cols-[260px_1fr] min-h-screen">
-                    {/* Sidebar */}
-                    <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+                {/* Sidebar */}
+                <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
-                    {/* Main content */}
-                    <div className="lg:col-start-2">
-                        {/* Content area */}
-                        <main className="flex-1">
-                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                                {children}
-                            </div>
-                        </main>
+                {/* Main content */}
+                <div className="lg:pl-64">
+                    <main className="py-8">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            {children}
+                        </div>
+                    </main>
 
-                        {/* Footer */}
-                        <footer className="bg-white border-t border-gray-200 mt-12">
-                            <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
+                    {/* Footer */}
+                    <footer className="bg-card border-t border-border mt-16">
+                        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                            <p className="text-center text-sm text-muted-foreground">
                                 © 2025 Akij Group. All rights reserved.
-                            </div>
-                        </footer>
-                    </div>
+                            </p>
+                        </div>
+                    </footer>
                 </div>
             </div>
         </>
     );
-}
+};
+
+export default AppLayout;
