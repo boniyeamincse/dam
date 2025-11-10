@@ -1,54 +1,72 @@
 # Akij Group Assets Management Dashboard
 
-A modern, professional dashboard system built with Laravel 11, Inertia.js, React, and Tailwind CSS for managing Akij Group's IT assets including domains, routers, switches, servers, and network infrastructure.
+A comprehensive, modern dashboard system built with Laravel 11, Inertia.js, React, and Tailwind CSS for managing Akij Group's complete IT asset inventory. Specializes in network device management including routers, switches, cameras, access points (APs), firewalls, and server infrastructure with advanced monitoring, reporting, and compliance features.
 
 ## 🏗️ Features
 
-- **Fixed Left Sidebar**: 260px wide navigation with 5 menu items
-- **Responsive Design**: Mobile hamburger menu for small screens
-- **Role-Based Access**: "Settings" visible only to Org Admin users
-- **Clean UI**: Professional Tailwind styling with rounded corners and shadows
-- **Modern Tech Stack**: Laravel 11 + React + Inertia.js + Tailwind CSS
-- **Lucide Icons**: Professional iconography throughout the interface
-- **Complete Asset Management**: Full CRUD operations for all asset types
-- **Advanced Filtering**: Search, filter, sort capabilities across all modules
-- **CSV Import/Export**: Bulk operations with template downloads
-- **Reports & Analytics**: KPI dashboards with export functionality
-- **Audit Trail**: Change tracking for compliance
+- **Complete Inventory Management**: Specialized for network devices (routers, switches, cameras, APs, firewalls)
+- **Fixed Left Sidebar**: 260px wide navigation with expandable menu items
+- **Responsive Design**: Mobile hamburger menu with professional UX
+- **Role-Based Access Control**: Granular permissions (Org Admin, IT Engineer, Viewer, Auditor)
+- **Advanced Asset Management**: Full CRUD with network configuration tracking
+- **Smart Filtering & Search**: Multi-criteria filtering across all asset properties
+- **Bulk Operations**: CSV import/export with validation and error handling
+- **Real-time Monitoring**: Health status, port management, configuration tracking
+- **Compliance & Audit**: Complete audit trail and change management
+- **Professional UI**: Modern design with Tailwind CSS and smooth animations
+- **Modern Tech Stack**: Laravel 11 + React 18 + Inertia.js + Tailwind CSS
 
-## 📋 Menu Items
+## 📋 Asset Management Modules
 
-### **Domain Management**
-- Globe icon
-- Add/View domains with DNS monitoring
-- Domain reports and analytics
-- CSV export functionality
+### **🌐 Domain Management**
+- **Icon**: Globe
+- **Features**: DNS monitoring, domain lifecycle management
+- **Capabilities**: Domain registration tracking, expiration alerts, bulk operations
+- **Reports**: Domain analytics, renewal schedules, CSV export
 
-### **Router Inventory**
-- Router icon
-- Full router CRUD operations
-- Health status monitoring
-- Interface and VLAN management
-- Configuration backup tracking
-- Bulk import/export capabilities
+### **🖧 Router Inventory System**
+- **Icon**: Router
+- **Features**: Complete router lifecycle management
+- **Capabilities**: Interface configuration, routing protocols, health monitoring
+- **Management**: Configuration backups, firmware tracking, VLAN management
+- **Operations**: Bulk import/export, performance analytics
 
-### **Switch Inventory** ⭐ **NEW**
-- CPU icon (Network Switch)
-- Complete switch management system
-- Asset information with network details
-- Health status monitoring
-- Port and VLAN configuration
-- Configuration document management
-- Audit log for compliance
-- CSV import/export with templates
+### **🔀 Switch Inventory System** ⭐ **PRODUCTION READY**
+- **Icon**: CPU (Network Switch)
+- **Features**: Complete network switch management
+- **Capabilities**: Port configuration, VLAN management, PoE tracking
+- **Monitoring**: Real-time health status, traffic monitoring, error tracking
+- **Compliance**: Configuration audits, change management, documentation
+- **Operations**: CSV bulk operations, template downloads, validation
 
-### **Server Management**
-- Server icon
-- Server inventory and monitoring
+### **📹 Network Camera Inventory**
+- **Icon**: Camera (planned)
+- **Features**: IP camera management and monitoring
+- **Capabilities**: RTSP configuration, recording settings, storage management
+- **Integration**: Video analytics, motion detection, access control
 
-### **Settings**
-- Settings icon (Org Admin only)
-- System configuration and administration
+### **📡 Access Point Management**
+- **Icon**: Wifi (planned)
+- **Features**: Wireless AP inventory and configuration
+- **Capabilities**: SSID management, security settings, coverage mapping
+- **Monitoring**: Client connections, signal strength, performance metrics
+
+### **🛡️ Firewall Management**
+- **Icon**: Shield (planned)
+- **Features**: Firewall rule management and compliance
+- **Capabilities**: Policy configuration, threat monitoring, access control
+- **Security**: Audit logging, compliance reporting, incident tracking
+
+### **🖥️ Server Infrastructure**
+- **Icon**: Server
+- **Features**: Server inventory and capacity planning
+- **Capabilities**: Hardware specs, OS management, performance monitoring
+- **Operations**: Maintenance scheduling, backup management, lifecycle tracking
+
+### **⚙️ System Administration**
+- **Icon**: Settings (Org Admin only)
+- **Features**: System configuration and user management
+- **Capabilities**: RBAC configuration, audit settings, system maintenance
 
 ## 🖥️ Dashboard Layout
 
@@ -67,102 +85,137 @@ A modern, professional dashboard system built with Laravel 11, Inertia.js, React
 - **Icons**: Lucide React
 - **Middleware**: Custom RoleMiddleware for access control
 
-## 📁 Project Structure
+## 📁 Project Architecture
 
 ```
-adam/
+adam/ (Akij Group Assets Management Dashboard)
 ├── app/
 │   ├── Http/Controllers/
 │   │   ├── DashboardController.php
-│   │   ├── DomainsController.php
+│   │   ├── DomainController.php
 │   │   ├── RoutersController.php
-│   │   ├── SwitchesController.php ⭐ NEW
+│   │   ├── SwitchesController.php ⭐ PRODUCTION READY
 │   │   ├── SwitchReportsController.php ⭐ NEW
 │   │   ├── SwitchImportController.php ⭐ NEW
 │   │   ├── SwitchHealthController.php ⭐ NEW
 │   │   ├── SwitchPortsController.php ⭐ NEW
 │   │   ├── SwitchConfigsController.php ⭐ NEW
 │   │   ├── SwitchAuditController.php ⭐ NEW
-│   │   ├── ServersController.php
+│   │   ├── ServersController.php (planned)
 │   │   └── SettingsController.php
 │   ├── Models/
-│   │   ├── Asset.php ⭐ NEW
-│   │   ├── AssetNetwork.php ⭐ NEW
-│   │   ├── Vendor.php ⭐ NEW
-│   │   ├── Location.php ⭐ NEW
-│   │   ├── Subnet.php ⭐ NEW
-│   │   ├── SwitchPort.php ⭐ NEW
+│   │   ├── Asset.php ⭐ Core Asset Model
+│   │   ├── AssetNetwork.php ⭐ Network Configuration
+│   │   ├── Vendor.php ⭐ Vendor Management
+│   │   ├── Location.php ⭐ Location Tracking
+│   │   ├── Subnet.php ⭐ Network Subnets
+│   │   ├── SwitchPort.php ⭐ Port Management
+│   │   ├── Router.php
 │   │   └── User.php
-│   ├── Policies/AssetPolicy.php ⭐ NEW
-│   └── Requests/SwitchRequest.php ⭐ NEW
+│   ├── Policies/
+│   │   └── AssetPolicy.php ⭐ RBAC Implementation
+│   └── Requests/
+│       └── SwitchRequest.php ⭐ Form Validation
 ├── resources/
 │   ├── js/
 │   │   ├── Components/
-│   │   │   ├── Sidebar.jsx
-│   │   │   ├── StatusBadge.jsx ⭐ NEW
-│   │   │   ├── KpiCard.jsx ⭐ NEW
-│   │   │   ├── Toolbar.jsx ⭐ NEW
-│   │   │   ├── SectionPanel.jsx ⭐ NEW
+│   │   │   ├── Sidebar.jsx (expandable menus)
+│   │   │   ├── StatusBadge.jsx ⭐ Status Indicators
+│   │   │   ├── KpiCard.jsx ⭐ Analytics Cards
+│   │   │   ├── Toolbar.jsx ⭐ Advanced Filtering
+│   │   │   ├── SectionPanel.jsx ⭐ Content Panels
 │   │   │   └── Layouts/AppLayout.jsx
 │   │   └── Pages/
-│   │       ├── Switches/ ⭐ NEW
-│   │       │   ├── Index.jsx ⭐ NEW
-│   │       │   ├── Create.jsx ⭐ NEW
-│   │       │   ├── Edit.jsx ⭐ NEW
-│   │       │   ├── Show.jsx ⭐ NEW
-│   │       │   ├── Report.jsx ⭐ NEW
-│   │       │   ├── Import.jsx ⭐ NEW
-│   │       │   ├── Health.jsx ⭐ NEW
-│   │       │   ├── Ports.jsx ⭐ NEW
-│   │       │   └── Audit.jsx ⭐ NEW
-│   │       └── Dashboard/Index.jsx
-│   └── views/ (Blade fallback)
+│   │       ├── Dashboard/Index.jsx
+│   │       ├── Domains/ ⭐ Domain Management
+│   │       ├── Routers/ ⭐ Router Management
+│   │       └── Switches/ ⭐ COMPLETE MODULE
+│   │           ├── Index.jsx (asset list with filters)
+│   │           ├── Create.jsx (two-column form)
+│   │           ├── Edit.jsx (pre-populated form)
+│   │           ├── Show.jsx (tabbed details view)
+│   │           ├── Report.jsx (KPI dashboard)
+│   │           ├── Import.jsx (CSV bulk import)
+│   │           ├── Health.jsx (status monitoring)
+│   │           ├── Ports.jsx (port configuration)
+│   │           └── Audit.jsx (change tracking)
+│   └── views/ (Blade fallbacks)
 ├── database/
 │   ├── migrations/
-│   │   ├── create_assets_table.php ⭐ NEW
-│   │   ├── create_asset_networks_table.php ⭐ NEW
-│   │   ├── create_vendors_table.php ⭐ NEW
-│   │   ├── create_locations_table.php ⭐ NEW
-│   │   ├── create_subnets_table.php ⭐ NEW
-│   │   └── create_switch_ports_table.php ⭐ NEW
+│   │   ├── create_assets_table.php ⭐ Asset Schema
+│   │   ├── create_asset_networks_table.php ⭐ Network Schema
+│   │   ├── create_vendors_table.php ⭐ Vendor Schema
+│   │   ├── create_locations_table.php ⭐ Location Schema
+│   │   ├── create_subnets_table.php ⭐ Subnet Schema
+│   │   └── create_switch_ports_table.php ⭐ Port Schema
 │   └── seeders/
-│       ├── RoleAndAdminSeeder.php
-│       └── SwitchSeeder.php ⭐ NEW
-├── routes/web.php
+│       ├── RoleAndAdminSeeder.php (RBAC setup)
+│       └── SwitchSeeder.php ⭐ Sample Switch Data
+├── routes/
+│   └── web.php (comprehensive routing)
+├── config/ (Laravel configuration)
+├── storage/ (file uploads, logs)
+├── tests/ (unit & feature tests)
 └── README.md
 ```
 
-## 🚀 Quick Start
+## 🚀 Quick Start Guide
 
-1. **Install Dependencies**
-   ```bash
-   composer install
-   npm install
-   ```
+### **Prerequisites**
+- PHP 8.2+ with Composer
+- Node.js 18+ with npm
+- MySQL 8.0+ or PostgreSQL
+- XAMPP/WAMP (for local development)
 
-2. **Environment Setup**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   # Configure database in .env
-   ```
+### **1. Environment Setup**
+```bash
+# Clone repository
+git clone https://github.com/boniyeamincse/dam.git
+cd adam
 
-3. **Database & Roles**
-   ```bash
-   php artisan migrate
-   php artisan db:seed --class=RoleAndAdminSeeder
-   php artisan db:seed --class=SwitchSeeder  # Optional: Add sample switch data
-   ```
+# Install PHP dependencies
+composer install
 
-4. **Run Development Server**
-   ```bash
-   npm run dev    # Terminal 1
-   php artisan serve  # Terminal 2
-   ```
+# Install Node.js dependencies
+npm install
 
-5. **Access Dashboard**
-   - Visit: `http://127.0.0.1:8000/dashboard`
-   - Login with Org Admin role to see "Settings" menu
+# Configure environment
+cp .env.example .env
+php artisan key:generate
+# Edit .env with your database credentials
+```
+
+### **2. Database Initialization**
+```bash
+# Run migrations
+php artisan migrate
+
+# Seed roles and permissions
+php artisan db:seed --class=RoleAndAdminSeeder
+
+# Optional: Add sample switch inventory data
+php artisan db:seed --class=SwitchSeeder
+```
+
+### **3. Start Development Servers**
+```bash
+# Terminal 1: Start Vite dev server
+npm run dev
+
+# Terminal 2: Start Laravel server
+php artisan serve
+```
+
+### **4. Access the Application**
+- **Dashboard**: `http://127.0.0.1:8000/dashboard`
+- **Switch Inventory**: `http://127.0.0.1:8000/switches` ⭐ **NEW**
+- **Switch Reports**: `http://127.0.0.1:8000/switches/report` ⭐ **NEW**
+- **Switch Import**: `http://127.0.0.1:8000/switches/import` ⭐ **NEW**
+
+### **5. Default Login Credentials**
+- **Email**: `admin@akijgroup.com`
+- **Password**: `StrongPass123!`
+- **Role**: Org Admin (full access to all modules)
 
 ## 🔐 Authentication
 
@@ -185,19 +238,36 @@ adam/
 - **Components**: Rounded borders, subtle shadows
 - **Icons**: Lucide React icon library
 
-## 📦 Dependencies
+## 📦 Technology Stack & Dependencies
 
-### Backend
-- Laravel 11
-- Spatie Laravel Permission
-- Laravel Breeze (React stack)
+### **Backend Architecture**
+- **Laravel 11**: Modern PHP framework with advanced features
+- **Spatie Laravel Permission**: Role-based access control (RBAC)
+- **Laravel Breeze**: Authentication with React/Inertia.js integration
+- **Eloquent ORM**: Advanced database relationships and querying
+- **Database**: MySQL 8.0+ with support for PostgreSQL
 
-### Frontend
-- React 18
-- Inertia.js
-- Tailwind CSS
-- Lucide React
-- Framer Motion (animations)
+### **Frontend Architecture**
+- **React 18**: Component-based UI with hooks and modern features
+- **Inertia.js**: Seamless SPA experience without API complexity
+- **Tailwind CSS**: Utility-first CSS framework for responsive design
+- **Lucide React**: Professional icon library with 1000+ icons
+- **Framer Motion**: Smooth animations and transitions
+
+### **Asset Management Features**
+- **Multi-Asset Support**: Routers, switches, cameras, APs, firewalls, servers
+- **Network Configuration**: IP management, VLANs, subnets, port tracking
+- **Advanced Filtering**: Status, location, vendor, model, firmware filters
+- **Bulk Operations**: CSV import/export with validation and error handling
+- **Real-time Monitoring**: Health status, performance metrics, alerts
+- **Compliance & Audit**: Complete change tracking and compliance reporting
+
+### **Security & Performance**
+- **RBAC Implementation**: Granular permissions (Org Admin, IT Engineer, Viewer, Auditor)
+- **Form Validation**: Comprehensive server-side and client-side validation
+- **CSRF Protection**: Laravel's built-in security features
+- **Database Optimization**: Proper indexing and query optimization
+- **Responsive Design**: Mobile-first approach with professional UX
 
 ## 🌐 Routes
 
@@ -271,11 +341,25 @@ Route::prefix('switches')->group(function () {
 Route::get('/servers', [ServersController::class, 'index'])->name('servers');
 ```
 
-## 🔑 Default Login
+## 🔐 User Roles & Permissions
 
+### **Role-Based Access Control**
+- **Org Admin**: Full system access, settings management, all CRUD operations
+- **IT Engineer**: Create/update/delete assets, manage configurations, reports
+- **Viewer**: Read-only access to all asset information and reports
+- **Auditor**: Limited access to audit logs and compliance reports
+
+### **Default Administrative Account**
 - **Email**: `admin@akijgroup.com`
 - **Password**: `StrongPass123!`
-- **Role**: Org Admin (can access Settings)
+- **Role**: Org Admin (complete system access)
+
+### **Switch Inventory Permissions**
+- **View**: All authenticated users (Viewer, Auditor, IT Engineer, Org Admin)
+- **Create/Update/Delete**: IT Engineer and Org Admin roles only
+- **Import/Export**: IT Engineer and Org Admin roles only
+- **Reports**: All authenticated users
+- **Audit Logs**: All authenticated users
 
 ## 📄 Wireframe Compliance
 
