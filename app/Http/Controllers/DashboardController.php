@@ -9,6 +9,17 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Dashboard/Index');
+        // Debug: Add some basic data to ensure the controller is working
+        $user = auth()->user();
+
+        return Inertia::render('Dashboard/Index', [
+            'user' => $user,
+            'stats' => [
+                'domains' => 0,
+                'routers' => 0,
+                'switches' => 0,
+                'servers' => 0,
+            ]
+        ]);
     }
 }
