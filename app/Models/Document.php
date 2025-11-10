@@ -9,6 +9,7 @@ class Document extends Model
 {
     protected $fillable = [
         'asset_id',
+        'contract_id',
         'type',
         'name',
         'filename',
@@ -16,12 +17,20 @@ class Document extends Model
         'mime_type',
         'size_bytes',
         'description',
+        'checksum',
+        'uploaded_by',
+        'uploaded_at',
     ];
 
     // Relationships
     public function asset(): BelongsTo
     {
         return $this->belongsTo(Asset::class);
+    }
+
+    public function contract(): BelongsTo
+    {
+        return $this->belongsTo(Contract::class);
     }
 
     // Accessor for formatted file size

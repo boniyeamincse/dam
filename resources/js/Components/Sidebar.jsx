@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
-import { Globe, Router, Cpu, Server, Settings, FilePlus, Search, BarChart3, Activity, Network, Clock, Upload } from 'lucide-react';
+import { Globe, Router, Cpu, Server, Settings, FilePlus, Search, BarChart3, Activity, Network, Clock, Upload, Building, FileText } from 'lucide-react';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
     const { url } = usePage();
     const { auth } = usePage().props;
     const userRoles = auth.roles || [];
-    const [expandedMenus, setExpandedMenus] = useState({ 'Domain Asset Management': false, 'Switch': true });
+    const [expandedMenus, setExpandedMenus] = useState({ 'Domain Asset Management': false, 'Switch': true, 'Vendor': false });
 
     const menuItems = [
         {
@@ -44,6 +44,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 { name: 'Health Status', href: '/switches/health', icon: Activity },
                 { name: 'Ports & VLANs', href: '/switches/ports', icon: Network },
                 { name: 'Audit Log', href: '/switches/audit', icon: Clock },
+            ]
+        },
+        {
+            name: 'Vendor',
+            icon: Building,
+            submenu: [
+                { name: 'Add Vendor', href: '/vendors/create', icon: FilePlus },
+                { name: 'View Vendors', href: '/vendors', icon: Search },
+                { name: 'Contracts', href: '/vendors/contracts', icon: FileText },
+                { name: 'Documents', href: '/vendors/documents', icon: FileText },
+                { name: 'Reports', href: '/vendors/report', icon: BarChart3 },
             ]
         },
         { name: 'Server', href: '/servers', icon: Server },

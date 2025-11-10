@@ -70,6 +70,16 @@ class Asset extends Model
         return $this->hasMany(AuditLog::class, 'entity_id')->where('entity_type', 'asset');
     }
 
+    public function assetVendors(): HasMany
+    {
+        return $this->hasMany(AssetVendor::class);
+    }
+
+    public function vendors(): HasMany
+    {
+        return $this->hasMany(AssetVendor::class)->with('vendor');
+    }
+
     // Scopes
     public function scopeRouters($query)
     {

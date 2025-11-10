@@ -79,6 +79,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('role:Org Admin')
         ->name('settings');
 
+    Route::prefix('vendors')->group(function () {
+        Route::get('/', [App\Http\Controllers\VendorsController::class, 'index'])->name('vendors.index');
+        Route::get('/create', [App\Http\Controllers\VendorsController::class, 'create'])->name('vendors.create');
+        Route::post('/', [App\Http\Controllers\VendorsController::class, 'store'])->name('vendors.store');
+        Route::get('/{vendor}', [App\Http\Controllers\VendorsController::class, 'show'])->name('vendors.show');
+        Route::get('/{vendor}/edit', [App\Http\Controllers\VendorsController::class, 'edit'])->name('vendors.edit');
+        Route::put('/{vendor}', [App\Http\Controllers\VendorsController::class, 'update'])->name('vendors.update');
+        Route::delete('/{vendor}', [App\Http\Controllers\VendorsController::class, 'destroy'])->name('vendors.destroy');
+
+        Route::get('/{vendor}/contracts', [App\Http\Controllers\VendorContractsController::class, 'index'])->name('vendors.contracts.index');
+        Route::get('/{vendor}/contracts/create', [App\Http\Controllers\VendorContractsController::class, 'create'])->name('vendors.contracts.create');
+        Route::post('/{vendor}/contracts', [App\Http\Controllers\VendorContractsController::class, 'store'])->name('vendors.contracts.store');
+        Route::get('/{vendor}/contracts/{contract}/edit', [App\Http\Controllers\VendorContractsController::class, 'edit'])->name('vendors.contracts.edit');
+        Route::put('/{vendor}/contracts/{contract}', [App\Http\Controllers\VendorContractsController::class, 'update'])->name('vendors.contracts.update');
+        Route::delete('/{vendor}/contracts/{contract}', [App\Http\Controllers\VendorContractsController::class, 'destroy'])->name('vendors.contracts.destroy');
+
+        Route::get('/{vendor}/documents', [App\Http\Controllers\VendorDocumentsController::class, 'index'])->name('vendors.documents.index');
+        Route::post('/{vendor}/documents', [App\Http\Controllers\VendorDocumentsController::class, 'store'])->name('vendors.documents.store');
+        Route::delete('/{vendor}/documents/{doc}', [App\Http\Controllers\VendorDocumentsController::class, 'destroy'])->name('vendors.documents.destroy');
+        Route::get('/documents/{doc}/download', [App\Http\Controllers\VendorDocumentsController::class, 'download'])->name('vendors.documents.download');
+
+        Route::get('/contracts', [App\Http\Controllers\VendorContractsController::class, 'globalIndex'])->name('vendors.contracts.global');
+        Route::get('/documents', [App\Http\Controllers\VendorDocumentsController::class, 'globalIndex'])->name('vendors.documents.global');
+        Route::get('/report', [App\Http\Controllers\VendorReportsController::class, 'index'])->name('vendors.report');
+        Route::get('/report/export', [App\Http\Controllers\VendorReportsController::class, 'exportCsv'])->name('vendors.report.export');
+    });
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
