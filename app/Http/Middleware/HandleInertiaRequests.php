@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
                 'roles' => $request->user() ? $request->user()->roles->pluck('name')->toArray() : [],
             ],
+            'userTheme' => $request->user() ? $request->user()->theme : 'light',
         ];
     }
 }

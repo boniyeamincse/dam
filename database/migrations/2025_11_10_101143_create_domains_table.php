@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('nameserver2');
             $table->string('cdn_waf');
             $table->string('primary_url');
-            $table->string('redirect_target');
+            $table->string('redirect_target')->nullable();
             $table->text('notes')->nullable();
             $table->softDeletes();
             $table->timestamps();

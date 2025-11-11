@@ -19,7 +19,7 @@ class RouterSeeder extends Seeder
             'tag' => 'RT-001',
             'model' => 'ISR 4451',
             'serial' => 'FOC12345678',
-            'status' => 'Active',
+            'status' => 'in_service',
             'purchase_date' => now()->subYears(2),
             'warranty_end' => now()->addYears(1),
             'last_seen' => now(),
@@ -31,7 +31,7 @@ class RouterSeeder extends Seeder
             'mgmt_ip' => '10.10.1.1',
             'hostname' => 'core-router-01.example.com',
             'os_firmware' => 'IOS XE 17.3.2',
-            'vlan' => 'VLAN 10,20,30,100',
+            'vlan' => 10,
         ]);
     }
 }

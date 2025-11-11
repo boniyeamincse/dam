@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Edit, Trash2, Search, Plus, Router as RouterIcon, Copy, Archive, Download, Upload, Eye } from 'lucide-react';
+import { Edit, Trash2, Search, Plus, Camera as CameraIcon, Copy, Archive, Download, Upload, Eye } from 'lucide-react';
 import AppLayout from '@/Layouts/AppLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import StatusBadge from '@/Components/StatusBadge';
 import KpiCard from '@/Components/KpiCard';
 
-export default function Index({ routers, filters }) {
+export default function Index({ cameras, filters }) {
     const { auth } = usePage().props;
     const [search, setSearch] = useState(filters.search || '');
     const [showFilters, setShowFilters] = useState(false);
 
     const handleSearch = (e) => {
         e.preventDefault();
-        router.get(route('routers.index'), {
+        router.get(route('cameras.index'), {
             ...filters,
             search: search,
         }, {
@@ -24,7 +24,7 @@ export default function Index({ routers, filters }) {
     };
 
     const handleFilter = (key, value) => {
-        router.get(route('routers.index'), {
+        router.get(route('cameras.index'), {
             ...filters,
             [key]: value,
         }, {
@@ -33,21 +33,21 @@ export default function Index({ routers, filters }) {
         });
     };
 
-    const handleDelete = (router) => {
-        if (confirm(`Are you sure you want to delete router "${router.name}"?`)) {
-            router.delete(route('routers.destroy', router.id));
+    const handleDelete = (camera) => {
+        if (confirm(`Are you sure you want to delete camera "${camera.name}"?`)) {
+            router.delete(route('cameras.destroy', camera.id));
         }
     };
 
-    const handleDuplicate = (router) => {
-        if (confirm(`Are you sure you want to duplicate router "${router.name}"?`)) {
-            router.post(route('routers.duplicate', router.id));
+    const handleDuplicate = (camera) => {
+        if (confirm(`Are you sure you want to duplicate camera "${camera.name}"?`)) {
+            router.post(route('cameras.duplicate', camera.id));
         }
     };
 
-    const handleRetire = (router) => {
-        if (confirm(`Are you sure you want to retire router "${router.name}"?`)) {
-            router.post(route('routers.retire', router.id));
+    const handleRetire = (camera) => {
+        if (confirm(`Are you sure you want to retire camera "${camera.name}"?`)) {
+            router.post(route('cameras.retire', camera.id));
         }
     };
 
@@ -79,8 +79,8 @@ export default function Index({ routers, filters }) {
         return 'text-green-600';
     };
 
-    const hasActiveAlerts = (router) => {
-        return router.alerts && router.alerts.some(alert => alert.status === 'active');
+    const hasActiveAlerts = (camera) => {
+        return camera.alerts && camera.alerts.some(alert => alert.status === 'active');
     };
 
     const getStatusColor = (status) => {
@@ -98,37 +98,28 @@ export default function Index({ routers, filters }) {
         }
     };
 
-    const filteredRouters = routers.filter(router =>
-        router.name.toLowerCase().includes(search.toLowerCase()) ||
-        router.asset_tag.toLowerCase().includes(search.toLowerCase()) ||
-        router.vendor.toLowerCase().includes(search.toLowerCase()) ||
-        router.model.toLowerCase().includes(search.toLowerCase()) ||
-        router.mgmt_ip.includes(search) ||
-        router.location.toLowerCase().includes(search.toLowerCase())
-    );
-
     return (
-        <AppLayout title="View Routers">
-            <Head title="View Routers" />
+        <AppLayout title="View Cameras">
+            <Head title="View Cameras" />
 
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-6">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">View Routers</h1>
-                            <p className="text-gray-600 mt-1">Manage and monitor your router assets</p>
+                            <h1 className="text-2xl font-bold text-gray-900">View Cameras</h1>
+                            <p className="text-gray-600 mt-1">Manage and monitor your camera assets</p>
                         </div>
                         <div className="flex gap-2">
-                            <Link href={route('routers.export')}>
+                            <Link href={route('cameras.export')}>
                                 <button className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <Download className="w-4 h-4 mr-2" />
                                     Export CSV
                                 </button>
                             </Link>
-                            <Link href={route('routers.create')}>
+                            <Link href={route('cameras.create')}>
                                 <PrimaryButton className="flex items-center">
                                     <Plus className="w-4 h-4 mr-2" />
-                                    Add Router
+                                    Add Camera
                                 </PrimaryButton>
                             </Link>
                         </div>
@@ -233,7 +224,7 @@ export default function Index({ routers, filters }) {
                     {/* Bulk Actions */}
                     <div className="flex justify-between items-center mb-6">
                         <div className="flex gap-2">
-                            <Link href={route('routers.export')} className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <Link href={route('cameras.export')} className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 <Download className="w-4 h-4 mr-2" />
                                 Export CSV
                             </Link>
@@ -247,11 +238,11 @@ export default function Index({ routers, filters }) {
                     {/* Table */}
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
-                            {routers.data.length > 0 && (
+                            {cameras.data.length > 0 && (
                                 <caption className="bg-gray-50 px-6 py-3 text-left text-sm font-medium text-gray-500">
-                                    Showing {((routers.current_page - 1) * routers.per_page) + 1} to{' '}
-                                    {Math.min(routers.current_page * routers.per_page, routers.total)} of{' '}
-                                    {routers.total} routers
+                                    Showing {((cameras.current_page - 1) * cameras.per_page) + 1} to{' '}
+                                    {Math.min(cameras.current_page * cameras.per_page, cameras.total)} of{' '}
+                                    {cameras.total} cameras
                                 </caption>
                             )}
                             <thead className="bg-gray-50">
@@ -286,72 +277,72 @@ export default function Index({ routers, filters }) {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {routers.data.map((router) => (
-                                    <tr key={router.id} className={hasActiveAlerts(router) ? 'bg-yellow-50' : ''}>
+                                {cameras.data.map((camera) => (
+                                    <tr key={camera.id} className={hasActiveAlerts(camera) ? 'bg-yellow-50' : ''}>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm font-medium text-gray-900">
-                                                {router.name}
+                                                {camera.name}
                                             </div>
-                                            {router.network?.hostname && (
+                                            {camera.network?.hostname && (
                                                 <div className="text-sm text-gray-500">
-                                                    {router.network.hostname}
+                                                    {camera.network.hostname}
                                                 </div>
                                             )}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {router.tag}
+                                            {camera.tag}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-gray-900">
-                                                {router.vendor?.name || 'Unknown'}
+                                                {camera.vendor?.name || 'Unknown'}
                                             </div>
                                             <div className="text-sm text-gray-500">
-                                                {router.model}
+                                                {camera.model}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {router.network?.mgmt_ip || '-'}
+                                            {camera.network?.mgmt_ip || '-'}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {router.location?.name || 'Unknown'}
+                                            {camera.location?.name || 'Unknown'}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <StatusBadge status={router.status} />
+                                            <StatusBadge status={camera.status} />
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {router.network?.os_firmware || '-'}
+                                            {camera.network?.os_firmware || '-'}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                            <span className={getLastSeenColor(router.last_seen)}>
-                                                {formatLastSeen(router.last_seen)}
+                                            <span className={getLastSeenColor(camera.last_seen)}>
+                                                {formatLastSeen(camera.last_seen)}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div className="flex items-center space-x-2">
                                                 <Link
-                                                    href={route('routers.show', router.id)}
+                                                    href={route('cameras.show', camera.id)}
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     title="View Details"
                                                 >
                                                     <Eye className="w-4 h-4" />
                                                 </Link>
                                                 <Link
-                                                    href={route('routers.edit', router.id)}
+                                                    href={route('cameras.edit', camera.id)}
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     title="Edit"
                                                 >
                                                     <Edit className="w-4 h-4" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => handleDuplicate(router)}
+                                                    onClick={() => handleDuplicate(camera)}
                                                     className="text-green-600 hover:text-green-900"
                                                     title="Duplicate"
                                                 >
                                                     <Copy className="w-4 h-4" />
                                                 </button>
-                                                {router.status !== 'Retired' && (
+                                                {camera.status !== 'Retired' && (
                                                     <button
-                                                        onClick={() => handleRetire(router)}
+                                                        onClick={() => handleRetire(camera)}
                                                         className="text-yellow-600 hover:text-yellow-900"
                                                         title="Retire"
                                                     >
@@ -359,7 +350,7 @@ export default function Index({ routers, filters }) {
                                                     </button>
                                                 )}
                                                 <button
-                                                    onClick={() => handleDelete(router)}
+                                                    onClick={() => handleDelete(camera)}
                                                     className="text-red-600 hover:text-red-900"
                                                     title="Delete"
                                                 >
@@ -374,16 +365,16 @@ export default function Index({ routers, filters }) {
                     </div>
 
                     {/* Pagination */}
-                    {routers.last_page > 1 && (
+                    {cameras.last_page > 1 && (
                         <div className="mt-6">
                             <div className="flex items-center justify-between">
                                 <div className="text-sm text-gray-700">
-                                    Showing {((routers.current_page - 1) * routers.per_page) + 1} to{' '}
-                                    {Math.min(routers.current_page * routers.per_page, routers.total)} of{' '}
-                                    {routers.total} results
+                                    Showing {((cameras.current_page - 1) * cameras.per_page) + 1} to{' '}
+                                    {Math.min(cameras.current_page * cameras.per_page, cameras.total)} of{' '}
+                                    {cameras.total} results
                                 </div>
                                 <div className="flex space-x-1">
-                                    {routers.links.map((link, index) => (
+                                    {cameras.links.map((link, index) => (
                                         <Link
                                             key={index}
                                             href={link.url}
@@ -403,23 +394,23 @@ export default function Index({ routers, filters }) {
                         </div>
                     )}
 
-                    {routers.data.length === 0 && (
+                    {cameras.data.length === 0 && (
                         <div className="text-center py-16">
                             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <RouterIcon className="w-10 h-10 text-green-600" />
+                                <CameraIcon className="w-10 h-10 text-green-600" />
                             </div>
                             <h3 className="text-lg font-medium text-gray-900 mb-2">
-                                {routers.length === 0 ? 'No routers found' : 'No matching routers'}
+                                {cameras.length === 0 ? 'No cameras found' : 'No matching cameras'}
                             </h3>
                             <p className="text-gray-500 mb-4">
                                 {Object.keys(filters).some(key => filters[key] && filters[key] !== '')
-                                    ? 'No routers match your current filters.'
-                                    : 'Get started by adding your first router.'}
+                                    ? 'No cameras match your current filters.'
+                                    : 'Get started by adding your first camera.'}
                             </p>
-                            <Link href={route('routers.create')}>
+                            <Link href={route('cameras.create')}>
                                 <PrimaryButton>
                                     <Plus className="w-4 h-4 mr-2" />
-                                    Add Router
+                                    Add Camera
                                 </PrimaryButton>
                             </Link>
                         </div>

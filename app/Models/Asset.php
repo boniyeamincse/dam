@@ -86,6 +86,11 @@ class Asset extends Model
         return $query->where('asset_type', 'router');
     }
 
+    public function scopeCameras($query)
+    {
+        return $query->where('asset_type', 'camera');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 'in_service');

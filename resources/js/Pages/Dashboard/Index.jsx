@@ -19,21 +19,24 @@ import {
     Activity,
     CheckCircle,
     XCircle,
-    AlertCircle
+    AlertCircle,
+    FileText,
+    Globe
 } from 'lucide-react';
 
-export default function Index({ user, stats }) {
+export default function Index({ user, stats, alerts, expiringSoon }) {
     const { auth } = usePage().props;
 
-    // Mock data for demonstration
     const kpiData = [
-        { title: 'Total Assets', value: '1,247', icon: Monitor, trend: 'up', trendValue: '+12%', color: 'primary' },
-        { title: 'Routers', value: '89', icon: Router, trend: 'up', trendValue: '+5%', color: 'success' },
-        { title: 'Switches', value: '156', icon: Cpu, trend: 'down', trendValue: '-2%', color: 'warning' },
-        { title: 'Cameras', value: '342', icon: Camera, color: 'info' },
-        { title: 'Servers', value: '23', icon: Server, color: 'primary' },
-        { title: 'Open Alerts', value: '7', icon: AlertTriangle, color: 'danger' },
-        { title: 'Expiring Soon', value: '12', icon: Clock, color: 'warning' },
+        { title: 'Total Assets', value: stats.total_assets.toLocaleString(), icon: Monitor, color: 'primary' },
+        { title: 'Routers', value: stats.routers.toLocaleString(), icon: Router, color: 'success' },
+        { title: 'Switches', value: stats.switches.toLocaleString(), icon: Cpu, color: 'warning' },
+        { title: 'Cameras', value: stats.cameras.toLocaleString(), icon: Camera, color: 'info' },
+        { title: 'Servers', value: stats.servers.toLocaleString(), icon: Server, color: 'primary' },
+        { title: 'Domains', value: stats.domains.toLocaleString(), icon: Globe, color: 'success' },
+        { title: 'Software Licenses', value: (stats.licenses || 0).toLocaleString(), icon: FileText, color: 'secondary' },
+        { title: 'Open Alerts', value: stats.active_alerts.toString(), icon: AlertTriangle, color: 'danger' },
+        { title: 'Expiring Soon', value: (stats.expiring_soon + (stats.license_expiring_soon || 0)).toString(), icon: Clock, color: 'warning' },
     ];
 
     const statusSegments = [
@@ -42,47 +45,27 @@ export default function Index({ user, stats }) {
         { label: 'Critical', value: 5, color: 'bg-red-500' },
     ];
 
-    const alertsData = [
-        {
-            icon: AlertTriangle,
-            title: 'Router R1 Connection Lost',
-            meta: '2 hours ago',
-            badge: <StatBadge variant="danger">Critical</StatBadge>
-        },
-        {
-            icon: AlertCircle,
-            title: 'SSL Certificate Expiring',
-            meta: 'domain.akij.com - 7 days',
-            badge: <StatBadge variant="warning">Warning</StatBadge>
-        },
-        {
-            icon: XCircle,
-            title: 'Server S3 High CPU Usage',
-            meta: '15 minutes ago',
-            badge: <StatBadge variant="danger">Critical</StatBadge>
-        },
-    ];
+    const alertsData = alerts.map(alert => ({
+        icon: alert.type === 'critical' ? AlertTriangle : AlertCircle,
+        title: alert.title,
+        meta: alert.timestamp ? `${alert.timestamp.diffForHumans()}` : 'Recently',
+        badge: <StatBadge variant={alert.type === 'critical' ? 'danger' : 'warning'}>
+            {alert.type === 'critical' ? 'Critical' : 'Warning'}
+        </StatBadge>
+    }));
 
-    const expiringData = [
-        {
-            icon: Clock,
-            title: 'Domain: akij.com',
-            meta: 'Expires in 15 days',
-            badge: <StatBadge variant="warning">15 days</StatBadge>
-        },
-        {
-            icon: Clock,
-            title: 'SSL: api.akij.com',
-            meta: 'Expires in 7 days',
-            badge: <StatBadge variant="danger">7 days</StatBadge>
-        },
-        {
-            icon: Clock,
-            title: 'Domain: portal.akij.com',
-            meta: 'Expires in 30 days',
-            badge: <StatBadge variant="info">30 days</StatBadge>
-        },
-    ];
+    const expiringData = expiringSoon.map(item => ({
+        icon: item.type === 'domain' ? Globe : FileText,
+        title: item.title,
+        meta: `${item.type === 'domain' ? 'Domain' : 'License'} expires in ${item.days_left} days`,
+        badge: <StatBadge variant={
+            item.days_left <= 7 ? 'danger' :
+            item.days_left <= 15 ? 'warning' :
+            item.type === 'license' ? 'secondary' : 'info'
+        }>
+            {item.days_left} days
+        </StatBadge>
+    }));
 
     const activityData = [
         {
@@ -92,10 +75,22 @@ export default function Index({ user, stats }) {
             badge: <StatBadge variant="success">Success</StatBadge>
         },
         {
+            icon: FileText,
+            title: 'New License Added: Microsoft Office 365',
+            meta: '2 hours ago',
+            badge: <StatBadge variant="info">License</StatBadge>
+        },
+        {
+            icon: Camera,
+            title: 'Security Camera CAM-001 Configured',
+            meta: '3 hours ago',
+            badge: <StatBadge variant="success">Camera</StatBadge>
+        },
+        {
             icon: Activity,
             title: 'New Server S4 Added',
-            meta: '3 hours ago',
-            badge: <StatBadge variant="info">Info</StatBadge>
+            meta: '4 hours ago',
+            badge: <StatBadge variant="info">Server</StatBadge>
         },
         {
             icon: AlertCircle,
@@ -189,7 +184,7 @@ export default function Index({ user, stats }) {
                     <SectionPanel
                         title="Expiring Soon"
                         actions={
-                            <StatBadge variant="warning">12 Items</StatBadge>
+                            <StatBadge variant="warning">{expiringSoon.length} Items</StatBadge>
                         }
                     >
                         <QuickList items={expiringData} />
